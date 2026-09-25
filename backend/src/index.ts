@@ -8,6 +8,7 @@ import dashboardRoutes from './routes/dashboard';
 import historyRoutes from './routes/history';
 import aiRoutes from './routes/ai';
 import userRoutes from './routes/user';
+import simulationRoutes from './routes/simulation';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/simulation', simulationRoutes);
 
 const PORT = process.env.PORT || 3001;
 

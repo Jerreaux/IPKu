@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { ChartLineUp, Plus, User, SignOut, ShieldCheck } from '@phosphor-icons/react';
+import { ChartLineUp, Plus, User, SignOut, ShieldCheck, Target } from '@phosphor-icons/react';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any>(null);
@@ -39,6 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const navItems = [
     { path: '/app', label: 'Ringkasan', icon: ChartLineUp },
     { path: '/input', label: 'Input Nilai', icon: Plus },
+    { path: '/simulation', label: 'Simulasi & Strategi', icon: Target },
     { path: '/profile', label: 'Profil Saya', icon: User },
   ];
 

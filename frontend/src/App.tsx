@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, Calculator, ChartLineUp, ShieldCheck, User, SignOut } from "@phosphor-icons/react";
+import { ArrowRight, Calculator, ChartLineUp, ShieldCheck, User, SignOut, Target, ListChecks, ArrowDown } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
@@ -14,6 +14,7 @@ export default function App() {
       <main className="w-full flex flex-col items-center">
         <HeroSection reduce={reduce} isLoggedIn={isLoggedIn} />
         <LogoWall />
+        <CaraKerjaSection reduce={reduce} />
         <FeatureBento reduce={reduce} />
         <CtaSection reduce={reduce} isLoggedIn={isLoggedIn} />
       </main>
@@ -52,8 +53,13 @@ function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
         <span className="font-semibold tracking-tight text-lg">IPKu</span>
       </div>
 
-      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition-colors">
-        <a href="#fitur">Fitur</a>
+      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-500 transition-colors">
+        <a href="#fitur" className="hover:text-zinc-900 dark:hover:text-white">Fitur</a>
+        <a href="#cara-kerja" className="hover:text-zinc-900 dark:hover:text-white">Cara Kerja</a>
+        <div className="flex items-center gap-1.5 text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/30 px-3 py-1 rounded-sm">
+          <ShieldCheck weight="fill" />
+          Sesuai Peraturan Rektor IPB
+        </div>
       </div>
 
       <div className="flex items-center gap-4">
@@ -158,6 +164,74 @@ function LogoWall() {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function CaraKerjaSection({ reduce }: { reduce: boolean | null }) {
+  const steps = [
+    {
+      title: "1. Input Riwayat",
+      description: "Masukkan nilai mata kuliah masa lalu Anda atau sinkronkan data KRS.",
+      icon: ListChecks
+    },
+    {
+      title: "2. Pantau Dashboard",
+      description: "Sistem mendeteksi nilai E otomatis, menghitung IPK akurat, dan membuat peta jalan sisa SKS.",
+      icon: ChartLineUp
+    },
+    {
+      title: "3. Simulasi & Strategi",
+      description: "Simulasikan rencana semester depan untuk melihat bobot risiko terhadap kelulusan Anda.",
+      icon: Target
+    }
+  ];
+
+  return (
+    <section id="cara-kerja" className="w-full bg-zinc-50 dark:bg-zinc-950 py-24 md:py-32 border-y border-zinc-200 dark:border-zinc-800">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col items-center">
+        
+        <div className="text-center max-w-2xl mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tighter text-zinc-900 dark:text-white mb-6">
+            Proses Terstruktur.
+          </h2>
+          <p className="text-zinc-500 text-lg">
+            Tidak perlu lagi menebak-nebak posisi akademik Anda. IPKu menerjemahkan riwayat rumit menjadi rencana yang jelas dalam tiga langkah.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl relative">
+          {/* Connector Line (Desktop) */}
+          <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-px bg-zinc-200 dark:bg-zinc-800 z-0" />
+          
+          {steps.map((step, idx) => (
+            <motion.div 
+              key={idx}
+              className="relative z-10 flex flex-col items-center text-center gap-4 bg-zinc-50 dark:bg-zinc-950 px-4"
+              initial={reduce ? false : { opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+            >
+              <div className="w-24 h-24 rounded-full bg-white dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-800 flex items-center justify-center shadow-sm">
+                <step.icon size={32} className="text-brand-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">{step.title}</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">{step.description}</p>
+              </div>
+              
+              {/* Connector (Mobile) */}
+              {idx < steps.length - 1 && (
+                <div className="md:hidden flex justify-center py-4 text-zinc-300 dark:text-zinc-700">
+                  <ArrowDown weight="bold" size={24} />
+                </div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+
       </div>
     </section>
   );

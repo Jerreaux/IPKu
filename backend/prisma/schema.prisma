@@ -8,15 +8,18 @@ datasource db {
 }
 
 model User {
-  id            String     @id @default(uuid())
-  email         String     @unique
-  password_hash String
-  nama          String?
-  program_studi String?
-  angkatan      Int?
-  created_at    DateTime   @default(now())
-  updated_at    DateTime   @updatedAt
-  semesters     Semester[]
+  id             String     @id @default(uuid())
+  email          String     @unique
+  password_hash  String
+  nama           String?
+  program_studi  String?
+  angkatan       Int?
+  skor_toefl     Int?
+  status_skripsi Boolean    @default(false)
+  status_kkn     Boolean    @default(false)
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
+  semesters      Semester[]
 }
 
 model Semester {

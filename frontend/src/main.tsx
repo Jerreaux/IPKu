@@ -7,6 +7,7 @@ import Dashboard from './Dashboard.tsx'
 import Login from './Login.tsx'
 import InputNilai from './InputNilai.tsx'
 import Profile from './Profile.tsx'
+import Simulation from './Simulation.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/app" element={<Dashboard />} />
         <Route path="/input" element={<InputNilai />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/simulation" element={<Simulation />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

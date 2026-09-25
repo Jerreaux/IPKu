@@ -16,6 +16,9 @@ router.get('/:id', async (req, res) => {
         nama: true,
         program_studi: true,
         angkatan: true,
+        skor_toefl: true,
+        status_skripsi: true,
+        status_kkn: true,
       }
     });
 
@@ -34,7 +37,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { nama, program_studi, angkatan } = req.body;
+    const { nama, program_studi, angkatan, skor_toefl, status_skripsi, status_kkn } = req.body;
 
     const updatedUser = await prisma.user.update({
       where: { id },
@@ -42,6 +45,9 @@ router.put('/:id', async (req, res) => {
         nama: nama || null,
         program_studi: program_studi || null,
         angkatan: angkatan ? parseInt(angkatan) : null,
+        skor_toefl: skor_toefl ? parseInt(skor_toefl) : null,
+        status_skripsi: status_skripsi === true,
+        status_kkn: status_kkn === true,
       },
       select: {
         id: true,
@@ -49,6 +55,9 @@ router.put('/:id', async (req, res) => {
         nama: true,
         program_studi: true,
         angkatan: true,
+        skor_toefl: true,
+        status_skripsi: true,
+        status_kkn: true,
       }
     });
 
