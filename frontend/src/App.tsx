@@ -2,7 +2,6 @@ import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Calculator, ChartLineUp, ShieldCheck, User, SignOut } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import ipbImage from "./assets/ipb.jpeg";
 
 export default function App() {
   const reduce = useReducedMotion();
