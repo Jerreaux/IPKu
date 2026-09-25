@@ -1,5 +1,5 @@
-import { useEffect, useState, useMemo } from 'react';
-import { WarningCircle, ChartLineUp, BookOpen, CheckCircle, XCircle, CalendarBlank, MapTrifold, MapPin } from '@phosphor-icons/react';
+import { useEffect, useState } from 'react';
+import { WarningCircle, ChartLineUp, BookOpen, CheckCircle, XCircle, CalendarBlank, MapTrifold } from '@phosphor-icons/react';
 import Chatbot from './Chatbot';
 import Layout from './Layout';
 

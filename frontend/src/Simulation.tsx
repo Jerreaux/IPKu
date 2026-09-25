@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Target, Lightbulb, WarningCircle, ArrowRight, CaretRight, Plus, Trash } from '@phosphor-icons/react';
+import { Target, Lightbulb, WarningCircle, CaretRight, Plus, Trash } from '@phosphor-icons/react';
 import Layout from './Layout';
 
 export default function Simulation() {
