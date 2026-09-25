@@ -6,3 +6,6 @@ build/
 *.log
 .agents/
 .gemini/
+
+PRD.md
+skill.md
