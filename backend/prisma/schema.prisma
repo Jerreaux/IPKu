@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String     @id @default(uuid())
+  email         String     @unique
+  password_hash String
+  nama          String?
+  program_studi String?
+  angkatan      Int?
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  semesters     Semester[]
+}
+
+model Semester {
+  id            String   @id @default(uuid())
+  user_id       String
+  nama_semester String   // e.g. "Semester 1", "Semester 2", "Semester Pendek"
+  target_ips    Float?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  courses       Course[]
+
+  @@unique([user_id, nama_semester])
+}
+
+model Course {
+  id          String   @id @default(uuid())
+  semester_id String
+  nama_mk     String
+  sks         Int
+  huruf_mutu  String   // A, AB, B, BC, C, D, E, BL
+  kelompok_mk String   @default("reguler") // reguler, EC, CCC
+  status      String   @default("aktif")   // aktif, lulus, wajib_ulang
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  semester    Semester @relation(fields: [semester_id], references: [id], onDelete: Cascade)
+  pengulangan RiwayatPengulangan[]
+}
+
+model RiwayatPengulangan {
+  id                        String   @id @default(uuid())
+  id_matakuliah_asal        String
+  semester_pengambilan_awal String
+  jumlah_pengulangan_ke     Int
+  huruf_mutu_hasil          String?
+  batas_waktu_semester      String
+  created_at                DateTime @default(now())
+  updated_at                DateTime @updatedAt
+  course                    Course   @relation(fields: [id_matakuliah_asal], references: [id], onDelete: Cascade)
+}
+
+model AcademicConfig {
+  id              String   @id @default(uuid())
+  version         String   @unique // e.g. "2026-v1"
+  grade_mapping   Json     // {"A": 4.0, "AB": 3.5, ...}
+  predicate_rules Json     // {"Cumlaude": {"min": 3.51, "max": 4.0}, ...}
+  active          Boolean  @default(false)
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+}
