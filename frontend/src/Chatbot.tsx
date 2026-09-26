@@ -27,7 +27,7 @@ export default function Chatbot() {
 
     try {
       const userId = localStorage.getItem('ipku_user_id');
-      const res = await fetch(`http://${window.location.hostname}:3001/api/ai/chat', {
+      const res = await fetch(`http://${window.location.hostname}:3001/api/ai/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, message: userMsg })

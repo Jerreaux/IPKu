@@ -75,7 +75,7 @@ export default function InputNilai() {
         kelompok_mk: c.kelompok_mk
       }));
 
-      const res = await fetch(`http://${window.location.hostname}:3001/api/history/save', {
+      const res = await fetch(`http://${window.location.hostname}:3001/api/history/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: userId, nama_semester: namaSemester, courses: payload })
