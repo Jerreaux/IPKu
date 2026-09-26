@@ -14,7 +14,7 @@ export default function Login() {
     const endpoint = isRegister ? '/api/auth/register' : '/api/auth/login';
     
     try {
-      const res = await fetch(`http://localhost:3001${endpoint}`, {
+      const res = await fetch(`http://${window.location.hostname}:3001${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

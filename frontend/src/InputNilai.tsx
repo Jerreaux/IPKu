@@ -40,7 +40,7 @@ export default function InputNilai() {
   const fetchHistory = async () => {
     if (!userId) return;
     try {
-      const res = await fetch(`http://localhost:3001/api/history/${userId}`);
+      const res = await fetch(`http://${window.location.hostname}:3001/api/history/${userId}`);
       if (res.ok) {
         const data = await res.json();
         setHistoryData(data);
@@ -75,7 +75,7 @@ export default function InputNilai() {
         kelompok_mk: c.kelompok_mk
       }));
 
-      const res = await fetch('http://localhost:3001/api/history/save', {
+      const res = await fetch(`http://${window.location.hostname}:3001/api/history/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: userId, nama_semester: namaSemester, courses: payload })

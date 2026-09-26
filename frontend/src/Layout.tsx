@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       return;
     }
     
-    fetch(`http://localhost:3001/api/user/${userId}`)
+    fetch(`http://${window.location.hostname}:3001/api/user/${userId}`)
       .then(res => res.json())
       .then(d => {
         if (d.error) {

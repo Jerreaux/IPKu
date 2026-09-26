@@ -16,7 +16,7 @@ export default function Profile() {
   useEffect(() => {
     if (!userId) return;
     
-    fetch(`http://localhost:3001/api/user/${userId}`)
+    fetch(`http://${window.location.hostname}:3001/api/user/${userId}`)
       .then(res => res.json())
       .then(d => {
         if (!d.error) {
@@ -36,7 +36,7 @@ export default function Profile() {
     e.preventDefault();
     setIsSaving(true);
     try {
-      const res = await fetch(`http://localhost:3001/api/user/${userId}`, {
+      const res = await fetch(`http://${window.location.hostname}:3001/api/user/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

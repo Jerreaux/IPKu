@@ -13,7 +13,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (!userId) return;
 
-    fetch(`http://localhost:3001/api/dashboard/summary/${userId}`)
+    fetch(`http://${window.location.hostname}:3001/api/dashboard/summary/${userId}`)
       .then(res => res.json())
       .then(d => setData(d))
       .catch(console.error);

@@ -19,7 +19,7 @@ export default function Simulation() {
   useEffect(() => {
     if (activeTab === 'retrospective' && !retroResult) {
       setIsLoadingRetro(true);
-      fetch(`http://localhost:3001/api/simulation/retrospective/${userId}`)
+      fetch(`http://${window.location.hostname}:3001/api/simulation/retrospective/${userId}`)
         .then(res => res.json())
         .then(d => {
           setRetroResult(d);
@@ -51,7 +51,7 @@ export default function Simulation() {
     
     setIsPredicting(true);
     try {
-      const res = await fetch(`http://localhost:3001/api/simulation/predictive/${userId}`, {
+      const res = await fetch(`http://${window.location.hostname}:3001/api/simulation/predictive/${userId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ plannedCourses: validCourses })
