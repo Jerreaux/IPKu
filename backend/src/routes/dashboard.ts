@@ -122,6 +122,44 @@ router.get('/summary/:userId', async (req, res) => {
       }
     }
 
+    // --- GENERATE DYNAMIC INSIGHTS ---
+    const insights: Array<{ type: 'info'|'warning'|'success', message: string, actionLabel?: string, actionLink?: string }> = [];
+    
+    // 1. Insight Cumlaude (Jika IPK >= 3.0 tapi < 3.51 dan belum lulus)
+    if (ipk >= 3.0 && ipk < 3.51 && progress.totalSksLulus < 144) {
+      const targetMutu = 3.51 * 144; // Total mutu minimum untuk Cumlaude
+      const currentMutu = runningMutuTotal;
+      const sisaSks = 144 - runningSksTotal; // SKS yang masih harus ditempuh (asumsi total diambil minimal 144)
+      
+      if (sisaSks > 0) {
+        const requiredIp = (targetMutu - currentMutu) / sisaSks;
+        if (requiredIp <= 4.0 && requiredIp > 0) {
+          insights.push({
+            type: 'info',
+            message: `Untuk lulus dengan Cumlaude, kamu perlu rata-rata IP ${requiredIp.toFixed(2)} di ${sisaSks} SKS tersisa.`,
+            actionLabel: 'Simulasikan',
+            actionLink: '/simulation'
+          });
+        }
+      }
+    }
+
+    // 2. Insight Nilai Bermasalah (C/D/E)
+    const badCourses = allCourses.filter(c => ['C', 'D', 'E'].includes(c.huruf_mutu));
+    if (badCourses.length > 0) {
+      insights.push({
+        type: 'warning',
+        message: `Kamu punya ${badCourses.length} nilai C/D/E yang bisa diulang untuk mendongkrak IPK secara instan.`,
+        actionLabel: 'Lihat Analisis Retrospektif',
+        actionLink: '/simulation'
+      });
+    } else if (progress.totalSksLulus > 0 && ipk >= 3.51) {
+      insights.push({
+        type: 'success',
+        message: 'Luar biasa! Pertahankan performa untuk lulus dengan predikat Cumlaude.',
+      });
+    }
+
     res.json({
       ipk,
       total_sks_lulus: progress.totalSksLulus,
@@ -131,6 +169,7 @@ router.get('/summary/:userId', async (req, res) => {
       status_kkn: user?.status_kkn || false,
       trend: trendIP,
       roadmap,
+      insights,
       warnings: eCourses.map(c => ({
         nama_mk: c.nama_mk,
         semester_asal: semesters.find(s => s.id === c.semester_id)?.nama_semester

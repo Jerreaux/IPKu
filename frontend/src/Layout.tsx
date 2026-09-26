@@ -38,7 +38,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { path: '/app', label: 'Ringkasan', icon: ChartLineUp },
-    { path: '/input', label: 'Input Nilai', icon: Plus },
+    { path: '/input', label: 'Riwayat Nilai', icon: Plus },
     { path: '/simulation', label: 'Simulasi & Strategi', icon: Target },
     { path: '/profile', label: 'Profil Saya', icon: User },
   ];

@@ -35,4 +35,19 @@ router.post('/save', async (req, res) => {
   }
 });
 
+// Ambil riwayat lengkap
+router.get('/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const semesters = await prisma.semester.findMany({
+      where: { user_id: userId },
+      include: { courses: true },
+      orderBy: { created_at: 'asc' }
+    });
+    res.json(semesters);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 export default router;
