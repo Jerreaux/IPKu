@@ -1,3 +1,4 @@
+import { API_BASE } from './api';
 import { useEffect, useState } from 'react';
 import { WarningCircle, CheckCircle, XCircle, CalendarBlank, MapTrifold, ArrowUpRight, ArrowDownRight, Lightbulb, TrendUp, ArrowRight } from '@phosphor-icons/react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
@@ -18,7 +19,7 @@ export default function Dashboard() {
       return;
     }
 
-    fetch(`http://${window.location.hostname}:3001/api/dashboard/summary/${userId}`)
+    fetch(`${API_BASE}/api/dashboard/summary/${userId}`)
       .then(res => {
         if (!res.ok) throw new Error('Gagal memuat data');
         return res.json();

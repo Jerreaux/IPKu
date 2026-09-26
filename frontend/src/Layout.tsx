@@ -1,3 +1,4 @@
+import { API_BASE } from './api';
 import { useEffect, useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { ChartLineUp, Plus, User, SignOut, ShieldCheck, Target } from '@phosphor-icons/react';
@@ -14,8 +15,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       return;
     }
     
-    fetch(`http://${window.location.hostname}:3001/api/user/${userId}`)
-      .then(res => res.json())
+    fetch(`${API_BASE}/api/user/${userId}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Gagal mengambil data user");
+        return res.json();
+      })
       .then(d => {
         if (d.error) {
           localStorage.removeItem('ipku_user_id');
@@ -24,7 +28,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           setUser(d);
         }
       })
-      .catch(console.error);
+      .catch(err => {
+        console.error("Gagal terhubung ke server:", err);
+        // Terjadi kesalahan koneksi (misal CORS/Mixed Content). Paksa logout dan ke login
+        localStorage.removeItem('ipku_user_id');
+        navigate('/login');
+      });
   }, [userId, navigate]);
 
   const handleLogout = () => {

@@ -1,3 +1,4 @@
+import { API_BASE } from './api';
 import { useState, useEffect } from 'react';
 import { Plus, FloppyDisk, Trash, Calculator, CaretDown, CaretUp, ListChecks } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -40,7 +41,7 @@ export default function InputNilai() {
   const fetchHistory = async () => {
     if (!userId) { window.location.href = "/login"; return; }
     try {
-      const res = await fetch(`http://${window.location.hostname}:3001/api/history/${userId}`);
+      const res = await fetch(`${API_BASE}/api/history/${userId}`);
       if (res.ok) {
         const data = await res.json();
         setHistoryData(data);
@@ -75,7 +76,7 @@ export default function InputNilai() {
         kelompok_mk: c.kelompok_mk
       }));
 
-      const res = await fetch(`http://${window.location.hostname}:3001/api/history/save`, {
+      const res = await fetch(`${API_BASE}/api/history/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: userId, nama_semester: namaSemester, courses: payload })

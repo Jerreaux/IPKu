@@ -1,3 +1,4 @@
+import { API_BASE } from './api';
 import { useState, useRef, useEffect } from 'react';
 import { PaperPlaneRight, Robot, X } from '@phosphor-icons/react';
 
@@ -27,7 +28,7 @@ export default function Chatbot() {
 
     try {
       const userId = localStorage.getItem('ipku_user_id');
-      const res = await fetch(`http://${window.location.hostname}:3001/api/ai/chat`, {
+      const res = await fetch(`${API_BASE}/api/ai/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, message: userMsg })

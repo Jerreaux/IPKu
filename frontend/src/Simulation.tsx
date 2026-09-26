@@ -1,3 +1,4 @@
+import { API_BASE } from './api';
 import { useState, useEffect } from 'react';
 import { Target, Lightbulb, WarningCircle, CaretRight, Plus, Trash } from '@phosphor-icons/react';
 import Layout from './Layout';
@@ -19,7 +20,7 @@ export default function Simulation() {
   useEffect(() => {
     if (activeTab === 'retrospective' && !retroResult) {
       setIsLoadingRetro(true);
-      fetch(`http://${window.location.hostname}:3001/api/simulation/retrospective/${userId}`)
+      fetch(`${API_BASE}/api/simulation/retrospective/${userId}`)
         .then(res => res.json())
         .then(d => {
           setRetroResult(d);
@@ -51,7 +52,7 @@ export default function Simulation() {
     
     setIsPredicting(true);
     try {
-      const res = await fetch(`http://${window.location.hostname}:3001/api/simulation/predictive/${userId}`, {
+      const res = await fetch(`${API_BASE}/api/simulation/predictive/${userId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ plannedCourses: validCourses })

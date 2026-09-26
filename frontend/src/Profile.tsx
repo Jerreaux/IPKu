@@ -1,3 +1,4 @@
+import { API_BASE } from './api';
 import { useEffect, useState } from 'react';
 import { FloppyDisk, User as UserIcon } from '@phosphor-icons/react';
 import Layout from './Layout';
@@ -16,7 +17,7 @@ export default function Profile() {
   useEffect(() => {
     if (!userId) { window.location.href = "/login"; return; }
     
-    fetch(`http://${window.location.hostname}:3001/api/user/${userId}`)
+    fetch(`${API_BASE}/api/user/${userId}`)
       .then(res => res.json())
       .then(d => {
         if (!d.error) {
@@ -36,7 +37,7 @@ export default function Profile() {
     e.preventDefault();
     setIsSaving(true);
     try {
-      const res = await fetch(`http://${window.location.hostname}:3001/api/user/${userId}`, {
+      const res = await fetch(`${API_BASE}/api/user/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
