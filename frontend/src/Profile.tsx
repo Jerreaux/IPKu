@@ -14,7 +14,7 @@ export default function Profile() {
   const userId = localStorage.getItem('ipku_user_id');
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId) { window.location.href = "/login"; return; }
     
     fetch(`http://${window.location.hostname}:3001/api/user/${userId}`)
       .then(res => res.json())

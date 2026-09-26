@@ -38,7 +38,7 @@ export default function InputNilai() {
   }, [activeTab]);
 
   const fetchHistory = async () => {
-    if (!userId) return;
+    if (!userId) { window.location.href = "/login"; return; }
     try {
       const res = await fetch(`http://${window.location.hostname}:3001/api/history/${userId}`);
       if (res.ok) {

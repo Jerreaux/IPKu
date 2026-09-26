@@ -1,27 +1,47 @@
 import { useEffect, useState } from 'react';
 import { WarningCircle, CheckCircle, XCircle, CalendarBlank, MapTrifold, ArrowUpRight, ArrowDownRight, Lightbulb, TrendUp, ArrowRight } from '@phosphor-icons/react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Chatbot from './Chatbot';
 import Layout from './Layout';
 
 export default function Dashboard() {
   const [data, setData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
   const [sksPerSemester, setSksPerSemester] = useState(20);
   const userId = localStorage.getItem('ipku_user_id');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId) {
+      navigate('/login');
+      return;
+    }
 
     fetch(`http://${window.location.hostname}:3001/api/dashboard/summary/${userId}`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Gagal memuat data');
+        return res.json();
+      })
       .then(d => setData(d))
-      .catch(console.error);
-  }, [userId]);
+      .catch(err => {
+        console.error(err);
+        setError('Gagal menghubungi server. Pastikan backend berjalan.');
+      });
+  }, [userId, navigate]);
+
+  if (error) return (
+    <Layout>
+      <div className="flex flex-col items-center justify-center h-full text-zinc-500 font-medium gap-4">
+        <XCircle size={48} className="text-red-500" />
+        <p>{error}</p>
+      </div>
+    </Layout>
+  );
 
   if (!data) return (
     <Layout>
-      <div className="flex items-center justify-center h-full text-zinc-500 font-medium">Memuat data akademik...</div>
+      <div className="flex items-center justify-center h-full text-zinc-500 font-medium animate-pulse">Memuat data akademik...</div>
     </Layout>
   );
 
