@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Plus, FloppyDisk, Trash, Calculator, CaretDown, CaretUp, ListChecks } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'motion/react';
 import Layout from './Layout';
@@ -18,10 +17,9 @@ interface Course {
 }
 
 export default function InputNilai() {
-  const navigate = useNavigate();
   const userId = localStorage.getItem('ipku_user_id');
   const [activeTab, setActiveTab] = useState<'input' | 'riwayat'>('input');
-  
+
   // State for Input
   const [namaSemester, setNamaSemester] = useState('');
   const [courses, setCourses] = useState<Course[]>([
@@ -70,13 +68,13 @@ export default function InputNilai() {
     if (!namaSemester) return alert("Pilih semester terlebih dahulu!");
     setIsSaving(true);
     try {
-      const payload = courses.map(c => ({ 
+      const payload = courses.map(c => ({
         nama_mk: c.name,
-        sks: Number(c.sks), 
+        sks: Number(c.sks),
         huruf_mutu: c.grade,
         kelompok_mk: c.kelompok_mk
       }));
-      
+
       const res = await fetch('http://localhost:3001/api/history/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,7 +98,7 @@ export default function InputNilai() {
   return (
     <Layout>
       <div className="w-full max-w-5xl flex flex-col gap-8">
-        
+
         <header className="border-b border-zinc-200 dark:border-zinc-800 pb-6">
           <h1 className="text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">Riwayat Nilai</h1>
           <p className="text-zinc-500 dark:text-zinc-400 mt-2 max-w-[60ch]">
@@ -132,10 +130,10 @@ export default function InputNilai() {
 
         {activeTab === 'input' && (
           <div className="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 md:p-8 rounded-sm shadow-sm flex flex-col gap-8">
-            
+
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Pilih Semester</label>
-              <select 
+              <select
                 value={namaSemester}
                 onChange={e => setNamaSemester(e.target.value)}
                 className="w-full md:w-1/2 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-sm px-4 py-3 outline-none focus:border-brand-500 transition-colors"
@@ -161,10 +159,10 @@ export default function InputNilai() {
                 <div>Huruf Mutu</div>
                 <div></div>
               </div>
-              
+
               <div className="flex flex-col gap-3 mt-3">
                 {courses.map((course) => (
-                  <motion.div 
+                  <motion.div
                     key={course.id}
                     layout
                     initial={{ opacity: 0, y: 10 }}
@@ -178,7 +176,7 @@ export default function InputNilai() {
                       onChange={(e) => updateCourse(course.id, 'name', e.target.value)}
                       className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-sm px-3 py-2.5 text-sm focus:outline-none focus:border-brand-500"
                     />
-                    
+
                     <input
                       type="number" min="1" max="6"
                       value={course.sks}
@@ -206,7 +204,7 @@ export default function InputNilai() {
                       ))}
                     </select>
 
-                    <button 
+                    <button
                       onClick={() => removeCourse(course.id)}
                       disabled={courses.length === 1}
                       className="w-full md:w-auto p-2.5 flex items-center justify-center text-zinc-400 hover:text-red-500 rounded-sm disabled:opacity-50 border border-transparent md:border-zinc-200 md:dark:border-zinc-800 md:hover:border-red-500 transition-colors bg-white dark:bg-zinc-900"
@@ -219,14 +217,14 @@ export default function InputNilai() {
             </div>
 
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-4 border-t border-zinc-200 dark:border-zinc-800 pt-6">
-              <button 
+              <button
                 onClick={addCourse}
                 className="w-full md:w-auto flex items-center justify-center gap-2 px-5 py-2.5 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-sm font-medium rounded-sm transition-colors"
               >
                 <Plus weight="bold" /> Tambah Mata Kuliah
               </button>
-              
-              <button 
+
+              <button
                 onClick={handleSave}
                 disabled={isSaving}
                 className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-sm font-medium text-sm transition-colors disabled:opacity-70"
@@ -235,7 +233,7 @@ export default function InputNilai() {
                 Simpan Riwayat
               </button>
             </div>
-            
+
           </div>
         )}
 
@@ -250,7 +248,7 @@ export default function InputNilai() {
               historyData.map((sem) => {
                 const isExpanded = expandedSemester === sem.id;
                 const totalSks = sem.courses.reduce((acc: number, c: any) => acc + c.sks, 0);
-                
+
                 let totalMutu = 0;
                 sem.courses.forEach((c: any) => {
                   if (c.huruf_mutu !== 'BL') {
@@ -261,7 +259,7 @@ export default function InputNilai() {
 
                 return (
                   <div key={sem.id} className="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 rounded-sm overflow-hidden shadow-sm">
-                    <button 
+                    <button
                       onClick={() => setExpandedSemester(isExpanded ? null : sem.id)}
                       className="w-full flex items-center justify-between p-5 md:p-6 bg-zinc-50 dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors focus:outline-none"
                     >
